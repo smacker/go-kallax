@@ -1,0 +1,28 @@
+version: build-{build}.{branch}
+
+clone_folder: C:\gopath\src\gopkg.in\src-d/\o-kallax.v1
+shallow_clone: true
+
+environment:
+  GOPATH: C:\gopath
+
+platform:
+  - x64
+
+services:
+  - postgresql
+
+install:
+  - go version
+  - go env
+  - go get -v -t .
+  - go get -v -t .\generator\...
+  - set PGUSER=testing
+  - set PGPASSWORD=testing
+  - set PATH=C:\Program Files\PostgreSQL\9.6\bin\;%PATH%
+  - createdb testing
+
+test_script:
+  - make test
+
+deploy: off
